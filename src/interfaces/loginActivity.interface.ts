@@ -1,16 +1,15 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
 const loginActivitySchema = new Schema({
   userID: String,
   time: { type: Date, default: Date.now },
-  activityType: String
+  activityType: String,
 });
 
-const LoginActivity = mongoose.model(
+const LoginActivity = model(
   'LoginActivity',
   loginActivitySchema,
   'LoginActivity'
 );
 
-module.exports = LoginActivity;
+export default LoginActivity;
