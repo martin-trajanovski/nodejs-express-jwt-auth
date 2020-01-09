@@ -84,7 +84,7 @@ class AuthenticationService {
 
       return authToken;
     } else {
-      throw new WrongCredentialsException();
+      throw new HttpException(401, 'Refresh token expired - session ended.');
     }
   };
 
@@ -109,7 +109,7 @@ class AuthenticationService {
   };
 
   public createToken(user: User): TokenData {
-    const expiresIn = 20; // an hour
+    const expiresIn = 60 * 60; // an hour
     const secret = process.env.JWT_SECRET;
     const dataStoredInToken: DataStoredInToken = {
       _id: user._id,
@@ -122,7 +122,7 @@ class AuthenticationService {
   }
 
   public async createRefreshToken(user: User): Promise<string> {
-    const expiresIn = 60; // a day
+    const expiresIn = 60 * 60 * 60; // a day
     const secret = process.env.REFRESH_TOKEN_SECRET;
 
     const refreshToken = jwt.sign({ type: 'refresh' }, secret, {
